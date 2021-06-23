@@ -121,7 +121,7 @@ async function start() {
 
   await remove(join(__dirname, '../dist'))
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  globby.sync(['!icons/*', '**/*'], { cwd: join(__dirname, '../build') }).forEach(async (file) => {
+  globby.sync(['**/*', '!icons/**'], { cwd: join(__dirname, '../build') }).forEach(async (file) => {
     await remove(join(__dirname, '../build', file))
   })
 
