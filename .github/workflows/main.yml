@@ -29,11 +29,18 @@ jobs:
         with:
           node-version: '14'
 
-      - name: last-release
+      - name: release-drafter
         uses: release-drafter/release-drafter@v5
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.ASSETS_TOKEN }}
+
+      - name: last-release
+        uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ASSETS_TOKEN }}
+        with:
+        release_id: ${{ steps.release.outputs.id }}
 
       # Runs a single command using the runners shell
       - name: install
@@ -48,6 +55,6 @@ jobs:
         with:
           repo: upload_asset_to_release
           owner: yousalice
-          tag_name: ${{ steps.release.outputs.tag_name }}
+          # tag_name: ${{ steps.release.outputs.tag_name }}
           token: ${{ secrets.ASSETS_TOKEN }}
           asset: "build/*.{zip,exe}"
