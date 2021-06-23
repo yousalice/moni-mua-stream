@@ -7,7 +7,7 @@ const config = {
   ...baseConfig,
   nsis: {
     // eslint-disable-next-line no-template-curly-in-string
-    artifactName: '${productName}-Setup-${version}.${ext}',
+    artifactName: '${productName}-Setup-v${version}.${ext}',
     oneClick: false,
     allowToChangeInstallationDirectory: true,
     perMachine: true,
