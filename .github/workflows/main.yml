@@ -40,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ASSETS_TOKEN }}
         with:
-        release_id: ${{ steps.release.outputs.id }}
+          release_id: ${{ steps.release.outputs.id }}
 
       # Runs a single command using the runners shell
       - name: install
