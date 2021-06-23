@@ -5,7 +5,6 @@
 import { join } from 'path'
 import { homedir, tmpdir } from 'os'
 import { ensureFileSync, readFileSync, writeFileSync } from 'fs-extra'
-import type { BrowserWindowConstructorOptions } from 'electron'
 
 export type AppConfigOption = {
   db: {
@@ -13,8 +12,7 @@ export type AppConfigOption = {
     encode: string // 数据库数据保存格式
   },
   path: string,
-  messagePath: string,
-  browser: Record<'admin' | 'stage' | 'setting' | string, BrowserWindowConstructorOptions>
+  messagePath: string
   [key: string]: unknown
 }
 

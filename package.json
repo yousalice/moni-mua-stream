@@ -27,6 +27,7 @@
     "date-fns": "^2.21.3",
     "electron-updater": "^4.3.5",
     "element-plus": "^1.0.2-beta.42",
+    "globby": "^11.0.4",
     "http-proxy": "^1.18.1",
     "is-promise": "^4.0.0",
     "level": "^7.0.0",

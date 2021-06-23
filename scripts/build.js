@@ -7,7 +7,7 @@ const { build: electronBuilder } = require('electron-builder')
 const { stat, remove, writeFile } = require('fs-extra')
 const { rollup } = require('rollup')
 const { loadRollupConfig } = require('./util')
-
+const globby = require('globby')
 /**
  * Generate the distribution version of package json
  */
@@ -120,6 +120,10 @@ async function start() {
   const [mainConfig] = await loadRollupConfig()
 
   await remove(join(__dirname, '../dist'))
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  globby.sync(['!icons/*', '**/*'], { cwd: join(__dirname, '../build') }).forEach(async (file) => {
+    await remove(join(__dirname, '../build', file))
+  })
 
   console.log(chalk.bold.underline('Build main process & preload'))
   const startTime = Date.now()
