@@ -33,15 +33,25 @@ jobs:
       - name: install
         run: npm install
 
+      - name: last-release
+        uses: GoogleCloudPlatform/release-please-action@v2
+        id: release
+        with:
+          release-type: node
+          package-name: package.json
+          changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false}]'
+          token: ${{ secrets.ASSETS_TOKEN }}
+          command: github-release
+
       # Runs a set of commands using the runners shell
       - name: build-production
         run: npm run build:production
-      
-      - name: release
+
+      - name: release-upload
         uses: chaosddp/upload_asset_to_release@v0.1
         with:
           repo: upload_asset_to_release
           owner: yousalice
-#           tag_name: v0.05
+          tag_name: ${{ steps.release.outputs.tag_name }}
           token: ${{ secrets.ASSETS_TOKEN }}
           asset: "build/*.{zip,exe}"
