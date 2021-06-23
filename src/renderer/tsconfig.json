@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "jsx": "preserve",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "lib": ["dom", "esnext"],
+    "paths": {
+      "/@shared/*": [
+        "../shared/*"
+      ],
+      "/@/*": [
+        "./*"
+      ],
+      "/@main/*": [
+        "../main/*"
+      ]
+    },
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "types": ["node", "vite/client"],
+  "plugins": [
+    {
+      "name": "@vuedx/typescript-plugin-vue"
+    }
+  ],
+  "include": [
+    "./**/*",
+    "./renderer.d.ts",
+    "../shared/**/*",
+    "../main/**/*",
+    "../../node_modules/element-plus/lib/index.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+  ]
+}

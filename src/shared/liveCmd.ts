@@ -1,0 +1,34 @@
+export class LiveCmd {
+  static readonly DANMU_MSG = 'DANMU_MSG' // 弹幕
+  // static readonly SYS_MSG = 'SYS_MSG' // 系统消息
+  // static readonly SYS_GIFT = 'SYS_GIFT' // 系统礼物
+  // static readonly GUARD_MSG = 'GUARD_MSG' // 舰长信息
+  static readonly SEND_GIFT = 'SEND_GIFT' // 礼物投喂
+  static readonly LIVE = 'LIVE' // 开始直播
+  static readonly PREPARING = 'PREPARING' // 直播结束
+  // static readonly END = 'END'
+  // static readonly CLOSE = 'CLOSE'
+  // static readonly BLOCK = 'BLOCK'
+  // static readonly ROUND = 'ROUND'
+  // static readonly WELCOME = 'WELCOME' // 欢迎 粉丝团成员
+  // static readonly WELCOME_GUARD = 'WELCOME_GUARD' // 欢迎舰长
+  // static readonly REFRESH = 'REFRESH'
+  // static readonly ACTIVITY_RED_PACKET = 'ACTIVITY_RED_PACKET'
+  // static readonly ROOM_LIMIT = 'ROOM_LIMIT'
+  // static readonly PK_PRE = 'PK_PRE'
+  // static readonly PK_END = 'PK_END'
+  // static readonly PK_SETTLE = 'PK_SETTLE'
+  // static readonly PK_MIC_END = 'PK_MIC_END'
+  // static readonly HOT_ROOM_NOTIFY = 'HOT_ROOM_NOTIFY' // 人气榜单
+  // static readonly PLAY_TAG = 'PLAY_TAG'
+  // static readonly PLAY_PROGRESS_BAR = 'PLAY_PROGRESS_BAR'
+  static readonly INTERACT_WORD = 'INTERACT_WORD' // 用户 与 直播间 的交互
+  // static readonly STOP_LIVE_ROOM_LIST = 'STOP_LIVE_ROOM_LIST'
+  static readonly ENTRY_EFFECT = 'ENTRY_EFFECT' // 舰长进入直播间
+  static readonly GUARD_BUY = 'GUARD_BUY' // 上舰
+  static readonly SUPER_CHAT_MESSAGE = 'SUPER_CHAT_MESSAGE' // 醒目留言
+  static readonly SUPER_CHAT_MESSAGE_JP = 'SUPER_CHAT_MESSAGE_JP' // 日文版醒目留言
+  static readonly CUT_OFF = 'CUT_OFF' // 直播关闭
+  // static readonly GIFT_TOP = 'GIFT_TOP'
+  static readonly OPERATION = 'OPERATION'
+}
