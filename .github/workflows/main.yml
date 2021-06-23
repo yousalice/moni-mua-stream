@@ -37,7 +37,7 @@ jobs:
         uses: release-drafter/release-drafter@v5
         id: release
         env:
-          GITHUB_TOKEN:${{ secrets.ASSETS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ASSETS_TOKEN }}
 
       # Runs a set of commands using the runners shell
       - name: build-production
