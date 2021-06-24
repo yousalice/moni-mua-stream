@@ -83,12 +83,13 @@ export default defineComponent({
 
     onDanMuMsg(async ({ comment, sender }) => {
       if (!isMonitor.value) return
-      let { type, command } = currentReward.value
+      let { type, command = '', glob = false } = currentReward.value
       comment = comment.trim()
       command = command?.trim()
+      command = command !== '*' && glob ? `^${command}$` : command
       // 弹幕口令， 且 口令匹配上
       // 不做全匹配，只要发送的弹幕中有一段包含即可
-      if (type === 1 && (command === '*' || new RegExp(command || '').test(comment))) {
+      if (type === 1 && (command === '*' || new RegExp(command).test(comment))) {
         addMember({
           uid: sender.uid,
           name: sender.name,

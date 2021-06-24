@@ -10,6 +10,7 @@ export type RewardOption = {
   member: number // 抽取数量
   type: number // 1 弹幕口令  2 仅从舰长中抽取 3礼物
   command?: string // 弹幕口令
+  glob?: boolean, // 匹配模式， false 部分匹配， true 全匹配
   gift: { // 礼物配置
     id: number // 礼物ID
     count: number // 礼物数量
@@ -31,6 +32,7 @@ const defaultRewardConfig: RewardOption[] = [
     member: 1,
     type: 1,
     command: 'mua',
+    glob: false,
     gift: { id: 0, count: 1 }
   },
   {
@@ -39,6 +41,7 @@ const defaultRewardConfig: RewardOption[] = [
     member: 1,
     type: 1,
     command: '1',
+    glob: false,
     gift: { id: 0, count: 1 }
   },
   {
@@ -55,6 +58,7 @@ const defaultRewardConfig: RewardOption[] = [
     member: 1,
     type: 1,
     command: '海葵可爱',
+    glob: false,
     gift: { id: 0, count: 1 }
   }
 ]

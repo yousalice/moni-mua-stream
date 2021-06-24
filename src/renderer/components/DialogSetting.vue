@@ -27,6 +27,9 @@
           </div>
           <p>人数：<input type="text" class="input" v-model="newReward.member"></p>
           <p v-if="newReward.type === 1" class="pt-2">弹幕：<input type="text" class="input" v-model="newReward.command"></p>
+          <p v-if="newReward.type === 1" class="pt-2">
+              全匹配：<span class="text-3xl cursor-pointer" :class="newReward.glob ? 'el-icon-open' : 'el-icon-turn-off text-gray-500'" @click="newReward.glob = !newReward.glob"></span>
+          </p>
           <div v-if="newReward.type === 3" class="flex">
             <span>礼物：</span>
             <div class="flex-1">
@@ -62,6 +65,7 @@
             <p>方式：{{ getRewardTypeByValue(config.reward.type) }}</p>
             <p>人数：{{ config.reward.member }}</p>
             <p v-if="config.reward.type === 1">弹幕：{{ config.reward.command }}</p>
+            <p v-if="config.reward.type === 1" class="pt-2">匹配规则：{{ config.reward.glob ? '全匹配' : '部分匹配' }}</p>
             <p v-if="config.reward.type ===3" >
               礼物：{{ getGiftName(config.reward.gift.id) }} X {{ config.reward.gift.count }}
             </p>
@@ -84,6 +88,7 @@
             </div>
             <p>人数：<input type="text" class="input" v-model="config.reward.member"></p>
             <p v-if="config.reward.type === 1" class="pt-2">弹幕：<input type="text" class="input" v-model="config.reward.command"></p>
+            <p v-if="config.reward.type === 1" class="pt-2">全匹配：<span class="text-3xl cursor-pointer" :class="config.reward.glob ? 'el-icon-open' : 'el-icon-turn-off text-gray-500'" @click="config.reward.glob = !config.reward.glob"></span></p>
             <div v-if="config.reward.type === 3" class="flex">
               <span>礼物：</span>
               <div class="flex-1">
@@ -176,6 +181,7 @@ export default defineComponent({
       name: '',
       type: 1,
       command: '',
+      glob: false,
       member: 1,
       gift: { id: 0, count: 1 }
     })
@@ -186,6 +192,7 @@ export default defineComponent({
         name: '',
         type: 1,
         command: '',
+        glob: false,
         member: 1,
         gift: { id: 0, count: 1 }
       }

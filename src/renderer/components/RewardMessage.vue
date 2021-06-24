@@ -6,8 +6,13 @@
   <div class="pt-5 ml-5">
     <template v-if="currentReward.type === 1">
       <template v-if="currentReward.command !== '*'">
-        <span>弹幕口令：</span>
-        <span>{{  currentReward.command }}</span>
+        <div class="flex items-end">
+          <p class="">
+            <span>弹幕口令：</span>
+            <span>{{  currentReward.command }}</span>
+          </p>
+          <p class=" text-gray-400 text-xl ml-5">{{ currentReward.glob ? '全匹配' : '部分匹配' }}</p>
+        </div>
       </template>
       <span v-else>发送任意弹幕均可参与</span>
     </template>
