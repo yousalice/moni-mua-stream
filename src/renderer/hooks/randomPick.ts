@@ -28,13 +28,10 @@ export function useRandomPick() {
   let step: number
   let stepNum = 0
 
-  // let randomList: Record<number, MemberOption> = {}
-  // const randomLength = ref<number>(0)
-
   const memberFilter = (uid: number) => {
     // 黑名单
     if (hasBlack(uid)) return false
-    // 最近九次内中奖的就别中了吧
+    // 最近12次内中奖的就别中了吧
     const _awardList = awardList.value.slice(0, 12)
     if (_awardList.some(_ => _.uid === uid)) return false
     return true
@@ -110,6 +107,14 @@ export function useRandomPick() {
   const active = ref(false)
   let timer: NodeJS.Timeout
   const onRandomPickV1 = () => {
+    if (isMonitor.value) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: '提示',
+        message: '请先停止报名'
+      })
+      return
+    }
     if (memberList.value.length === 0 || (currentReward.value.member || 0) >= memberList.value.length) {
       // 参与人数不足抽取人数
       dialog.showMessageBox({
@@ -141,6 +146,14 @@ export function useRandomPick() {
 
   let lock = false
   const onRandomPickV2 = () => {
+    if (currentReward.value.type !== 2 && isMonitor.value) {
+      dialog.showMessageBox({
+        type: 'info',
+        title: '提示',
+        message: '请先停止报名'
+      })
+      return
+    }
     if (memberList.value.length === 0 || (currentReward.value.member || 0) >= memberList.value.length) {
       // 参与人数不足抽取人数
       dialog.showMessageBox({

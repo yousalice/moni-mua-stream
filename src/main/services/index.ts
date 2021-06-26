@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron'
 import { Logger } from '../core/logger'
 import { INJECTIONS_SYMBOL } from './Service'
-import { BrowserService } from './Browser.service'
+// import { BrowserService } from './Browser.service'
 import { MessageService } from './Message.service'
 import { DataBaseService } from './Data.service'
 import { AdminBrowserService } from './AdminBrowser.service'
@@ -12,7 +12,7 @@ import { AdminBrowserService } from './AdminBrowser.service'
 export interface Services {
   DataBaseService: DataBaseService,
   AdminBrowserService: AdminBrowserService,
-  BrowserService: BrowserService,
+  // BrowserService: BrowserService,
   MessageService: MessageService
 }
 
@@ -27,7 +27,7 @@ export function initService(logger: Logger): void {
   _initialize({
     DataBaseService: new DataBaseService(logger),
     AdminBrowserService: new AdminBrowserService(logger),
-    BrowserService: new BrowserService(logger),
+    // BrowserService: new BrowserService(logger),
     MessageService: new MessageService(logger)
   })
 }

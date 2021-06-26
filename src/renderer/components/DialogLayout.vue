@@ -3,7 +3,7 @@
     <div class="dialog-layout" :class="{ 'hidden': !show }" @click.self="$emit('close')">
       <div class="container">
         <h1 v-if="title" class="dialog-title">{{ title }}</h1>
-        <span class="block el-icon-close absolute right-2 top-0 text-base z-50 cursor-pointer text-gray-300" @click="$emit('close')"></span>
+        <span class="block el-icon-close absolute right-2 top-0 text-base z-50 cursor-pointer text-gray-600 moni:text-gray-300" @click="$emit('close')"></span>
         <div class="content no-scrollbar">
           <slot />
         </div>
@@ -38,29 +38,40 @@ export default defineComponent({
 .dialog-layout.hidden {
   @apply -translate-y-full;
 }
+
 .container {
-  @apply relative w-1/2 h-3/4 m-auto rounded-md shadow-xl;
+  @apply relative w-1/2 h-3/4 m-auto rounded-md shadow-2xl overflow-hidden border border-gray-200;
+}
+
+.theme-moni .container {
+  @apply relative w-1/2 h-3/4 m-auto rounded-md shadow-xl border-none overflow-visible;
 }
 
 .dialog-title {
-  @apply absolute top-1 left-5 h-7 leading-7 text-gray-300 text-xl z-10;
+  @apply absolute top-0 left-0 h-8 leading-8 bg-white w-full pl-5 shadow-md text-xl z-10;
+}
+.theme-moni .dialog-title {
+  @apply absolute top-1 left-5 h-7 leading-7 text-gray-300 text-xl z-10 bg-transparent w-auto shadow-none;
   text-shadow: 0 -1px 1px #000;
 }
 
-.container::before,
-.container::after {
+.theme-moni .container::before,
+.theme-moni .container::after {
   content: '';
   @apply absolute w-8 h-1/2 -top-1/2 shadow-xl;
   background-image: radial-gradient(#b78864 0%, #ac7245 67%, #a35c25);
 }
-.container::before {
+.theme-moni .container::before {
   @apply left-1/4;
 }
-.container::after {
+.theme-moni  .container::after {
   @apply right-1/4;
 }
+
 .content {
-  @apply w-full h-full p-1 text-3xl overflow-y-auto;
+  @apply w-full h-full p-1 text-3xl overflow-y-auto bg-gray-50 pt-8;
+}
+.theme-moni .content {
   background-image: linear-gradient(135deg, #546e61 5%, #344940 45%, #344940 65%, #10201d);
   border: solid 15px transparent;
   border-top: solid 35px transparent;

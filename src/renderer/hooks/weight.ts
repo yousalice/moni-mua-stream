@@ -51,7 +51,13 @@ export function useWeight() {
     } else {
       weightList.value[index].weight = weight
     }
-    weightList.value = weightList.value.filter(_ => Number(_.weight) !== weightConfig.default)
+    weightList.value = weightList.value.filter(_ => {
+      if (rankList.value.some(rank => rank.uid === _.uid)) {
+        return true
+      } else {
+        return Number(_.weight) !== weightConfig.default
+      }
+    })
   }
 
   const resetWeight = (uid: number) => {

@@ -35,6 +35,18 @@ export const useRankList = () => {
     await update()
   }
 
+  const removeRank = async (uid: number) => {
+    const i = rankList.value.findIndex(_ => _.uid === uid)
+    if (i !== -1) {
+      rankList.value[i].count -= 1
+    }
+    if (i === -1 || rankList.value[i].count === 0) {
+      rankList.value = rankList.value.filter(_ => _.uid !== uid)
+    }
+    rankList.value = _.orderBy(rankList.value, ['count'], ['desc'])
+    await update()
+  }
+
   const clearRank = async () => {
     rankList.value = []
     await update()
@@ -44,6 +56,7 @@ export const useRankList = () => {
     rankList,
     initRankList,
     addRank,
-    clearRank
+    clearRank,
+    removeRank
   }
 }

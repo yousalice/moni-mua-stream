@@ -4,8 +4,8 @@
       <span class="button" @click="createReward = true">添加配置</span>
       <span class="flex-1 text-right mr-4 text-lg">单击即可选择</span>
     </div>
-    <div class="m-4 border-t-2 border-gray-400">
-      <div class="text-2xl flex items-center pt-4 pb-4 border-b-2 border-gray-400" v-if="createReward">
+    <div class="m-4 border-t border-gray-300 moni:border-t-2 moni:border-gray-400">
+      <div class="text-2xl flex items-center pt-4 pb-4 border-b border-gray-300 moni:border-b-2 moni:border-gray-400" v-if="createReward">
         <div class="pr-4">
           <span class="el-icon-plus"></span>
         </div>
@@ -54,7 +54,7 @@
       <div
         v-for="config in watchRewardList"
         :key="config.reward.id"
-        class="text-2xl flex items-center pt-4 pb-4 border-b-2 border-gray-400"
+        class="text-2xl flex items-center pt-4 pb-4 border-b border-gray-300 moni:border-b-2 moni:border-gray-400"
       >
         <p class="pr-4 w-8" @click="!config.edit && setCurrentReward(config.reward.id)">
           <span v-if="currentReward.id === config.reward.id" class="el-icon-circle-check"></span>

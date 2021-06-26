@@ -3,13 +3,13 @@
     <div class="flex h-full">
       <div class="flex-1">
         <RewardMessage @setting="showSetting = true"/>
-        <div class="stage p-5 m-5 border-4 border-gray-400 rounded-md flex overflow-y-auto no-scrollbar">
+        <div class="stage p-5 m-5 bg-white shadow-md moni:shadow-none moni:bg-transparent moni:border-4 moni:border-gray-400 rounded-md flex overflow-y-auto no-scrollbar">
           <div class="m-auto text-center">
             <span
               v-for="member in pickList"
               :key="member.uid"
               class="inline-block ml-8 mr-8 mt-5 mb-5 border-gray-400"
-              :class="{ 'text-gray-500': member.isAlive === 0 }"
+              :class="{ 'text-gray-300 moni:text-gray-500': member.isAlive === 0 }"
             >
               {{ member.name }}
             </span>
@@ -49,48 +49,19 @@ import DialogRank from '/@/components/DialogRank.vue'
 import DialogBlack from '/@/components/DialogBlack.vue'
 import DialogRule from '/@/components/DialogRule.vue'
 import MemberList from '/@/components/MemberList.vue'
-import { useService, useRewardConfig, useRankList, useBlack, useGuardList, useAward, useRandomPick, useGift } from '/@/hooks'
+import { useRandomPick } from '/@/hooks'
 
 export default defineComponent({
   name: 'Home',
   components: { RewardMessage, DialogSetting, DialogAward, DialogRank, DialogBlack, DialogRule, MemberList },
   setup() {
-    const uid = 1589117610
-    const roomId = 23001181
-    // const uid = 477332594
-    // const roomId = 21652717
-    const service = useService('AdminBrowserService')
-    const { initRewardConfig } = useRewardConfig()
-    const { initRankList } = useRankList()
-    const { initBlackList } = useBlack()
-    const { initAwardList } = useAward()
-    const { autoRefresh, closeRefresh } = useGuardList()
     const { active, buttonText, pickList, pickType, onRandomPickV1, onRandomPickV2 } = useRandomPick()
-    const { initGiftList } = useGift()
 
     const showSetting = ref(false)
     const showAward = ref(false)
     const showRank = ref(false)
     const showBlack = ref(false)
     const showRule = ref(false)
-
-    service.connect({
-      mid: uid,
-      roomId,
-      whiteList: ['all']
-    })
-
-    onBeforeMount(async () => {
-      await initRewardConfig()
-      await initAwardList()
-      await initRankList()
-      await initBlackList()
-      await initGiftList()
-      await autoRefresh({ uid, roomId })
-    })
-    onUnmounted(() => {
-      closeRefresh()
-    })
 
     return {
       showSetting,
@@ -112,7 +83,14 @@ export default defineComponent({
 .stage {
   height: calc(100vh - 520px)
 }
+
 .input {
+  outline: 0;
+  background-color: transparent;
+  @apply border-b border-gray-500 text-gray-700;
+}
+
+.theme-moni .input {
   outline: 0;
   background-color: transparent;
   border-bottom: solid 2px #ccc;
@@ -120,9 +98,13 @@ export default defineComponent({
 }
 
 .button {
-  @apply inline-block border-4 border-gray-400 text-2xl;
-  @apply pl-5 pr-5 pt-1 pb-1;
+  @apply inline-block text-2xl border-2 border-gray-600;
+  @apply pl-5 pr-5 pt-1 pb-1 bg-white;
   @apply rounded-md cursor-pointer select-none;
+}
+
+.theme-moni .button{
+  @apply border-4 border-gray-400 bg-transparent;
 }
 
 .button.pick {
@@ -133,13 +115,4 @@ export default defineComponent({
   @apply text-xl border-2
 }
 
-.member-list {
-  height: calc(100vh - 190px)
-}
-.member {
-  @apply text-2xl text-gray-300 mt-2;
-}
-.member.offline {
-  @apply text-gray-500;
-}
 </style>

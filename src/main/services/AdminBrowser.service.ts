@@ -38,11 +38,12 @@ export class AdminBrowserService extends Service {
     this.win.on('ready-to-show', () => {
       this.win.show()
     })
-    this.addListener()
+    this.addListeners()
   }
 
   connect(option: Parameters<MessageService['connect']>[0] & { whiteList?: string[] }): void {
     this.messageWhiteList = option.whiteList || ['all']
+    this.emit('connect-start', option)
     this.messageService.connect(option)
   }
 
@@ -50,7 +51,7 @@ export class AdminBrowserService extends Service {
     this.win.close()
   }
 
-  addListener(): void {
+  addListeners(): void {
     this.messageService.onOpen(() => {
       this.send('socket:open')
     })

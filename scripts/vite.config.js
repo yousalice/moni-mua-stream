@@ -30,6 +30,9 @@ const config = {
       '/@': join(__dirname, '../src/renderer')
     }
   },
+  define: {
+    __IS_MONI__: true
+  },
   optimizeDeps: {
     exclude: external
   },

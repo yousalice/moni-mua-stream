@@ -3,14 +3,14 @@
     <div class="text-right pt-2 pr-4">
       <span class="button small" @click="clearBlack">清空</span>
     </div>
-    <div class="flex pl-4 pr-4 pb-2 border-b-2 mb-4 border-gray-400">
+    <div class="flex pl-4 pr-4 pb-2 border-b moni:border-b-2 mb-4 border-gray-400">
       <span class="flex-1">姓名</span>
       <span class="block w-28 h-1"></span>
     </div>
     <div
       v-for="black in blackList"
       :key="black.uid"
-      class="flex ml-4 mr-4 pb-2 border-b-2 mb-4 border-gray-400 text-2xl"
+      class="flex ml-4 mr-4 pb-2 border-b border-gray-200 moni:border-b-2 mb-4 moni:border-gray-400 text-2xl"
     >
       <span class="flex-1 pr-4">{{ black.name }}</span>
       <span class="button small" @click="removeBlack(black)">删除</span>

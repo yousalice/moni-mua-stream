@@ -3,7 +3,7 @@
     <div class="text-right pr-4 pb-4 pt-4">
       <span class="button small" @click="clearAward">清空</span>
     </div>
-    <div class="flex text-xl pl-4 pr-4 pb-2 border-b-2 mb-4 border-gray-300">
+    <div class="flex text-xl pl-4 pr-4 pb-2 border-b moni:border-b-2 mb-4 border-gray-300">
       <span class="text-center w-52">姓名</span>
       <span class="flex-1">奖励</span>
       <span class="text-center w-36 mr-16">时间</span>
@@ -11,7 +11,7 @@
     <div
       v-for="(award, index) in computedAwardList"
       :key="award.uid + '-' + index"
-      class="flex text-lg ml-4 mr-4 pb-2 mb-2 border-b border-gray-400 group"
+      class="flex text-lg ml-4 mr-4 pb-2 mb-2 border-b border-gray-300 moni:border-gray-400 group"
     >
       <span class="w-52 pr-2">{{ award.name }}</span>
       <span class="flex-1 pr-2">{{ award.reward }}</span>

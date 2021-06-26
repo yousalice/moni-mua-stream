@@ -1,6 +1,6 @@
 {
   "name": "moni-mua",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "private": true,
   "description": "",
   "scripts": {
@@ -36,6 +36,7 @@
     "pako": "^2.0.3",
     "portfinder": "^1.0.28",
     "subleveldown": "^5.0.1",
+    "tailwindcss-multi-theme": "^1.0.4",
     "vue": "^3.0.6",
     "vue-router": "^4.0.4",
     "vuex": "^4.0.0",

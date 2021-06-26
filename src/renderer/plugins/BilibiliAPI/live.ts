@@ -223,3 +223,36 @@ export const getGuardList = async function ({ roomId, uid }: { roomId: number, u
   }
   return [err, res as { info: { page: number }, list: GuardOption[], top3: GuardOption[] }]
 }
+
+export type BilibiliUserInfo = {
+  mid: number
+  name: string
+  level: number
+  face: string
+  roomId: number
+  sign: string
+}
+
+export const getBilibiliUserInfo = async (mid: number): Promise<[error?: HttpError, result?: BilibiliUserInfo]> => {
+  // https://api.bilibili.com/x/space/acc/info?mid=2002354376&jsonp=jsonp
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [error, result] = await get<any, any>('/x/space/acc/info', { mid, jsonp: 'jsonp' })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const res: BilibiliUserInfo = {
+    mid,
+    name: '',
+    level: 0,
+    face: '',
+    roomId: 0,
+    sign: ''
+  }
+  if (result) {
+    res.mid = result.mid
+    res.name = result.name
+    res.level = result.level
+    res.face = result.face
+    res.sign = result.sign
+    res.roomId = result.live_room.roomid
+  }
+  return [error, res]
+}

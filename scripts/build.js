@@ -11,10 +11,10 @@ const globby = require('globby')
 /**
  * Generate the distribution version of package json
  */
-async function generatePackageJson() {
+async function generatePackageJson(isMoni) {
   const original = require('../package.json')
   const result = {
-    name: original.name,
+    name: isMoni ? original.name : 'chobits-live',
     author: original.author,
     version: original.version,
     license: original.license,
@@ -66,13 +66,16 @@ async function buildMain(config) {
 /**
  * Use vite to build renderer process
  */
-function buildRenderer() {
+function buildRenderer(isMoni) {
   const config = require('./vite.config')
 
   console.log(chalk.bold.underline('Build renderer process'))
 
   return build({
     ...config,
+    define: {
+      __IS_MONI__: !!isMoni
+    },
     mode: process.env.NODE_ENV
   })
 }
@@ -138,6 +141,16 @@ async function start() {
     const config = loadElectronBuilderConfig()
     const dir = process.env.BUILD_TARGET === 'dir'
     await generatePackageJson()
+    await buildElectron(config, dir)
+  }
+
+  await buildRenderer(true)
+
+  console.log()
+  if (process.env.BUILD_TARGET) {
+    const config = loadElectronBuilderConfig()
+    const dir = process.env.BUILD_TARGET === 'dir'
+    await generatePackageJson(true)
     await buildElectron(config, dir)
   }
 }

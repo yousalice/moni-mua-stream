@@ -1,5 +1,5 @@
 <template>
-  <div class="member-list-wrapper border-l-4 border-gray-400 p-5">
+  <div class="member-list-wrapper moni:border-l-4 moni:border-gray-400 p-5 mt-5 mr-5 moni:mt-0 moni:mr-0 bg-white moni:bg-transparent shadow-md moni:shadow-none">
     <div class="flex items-end justify-between">
       <span v-if="currentReward.type !== 2" class="button" @click="onMonitor">{{ isMonitor ? '结束' : '开始' }}报名</span>
       <span v-if="currentReward.type !== 2" class="button" @click="onReset">重置</span>
@@ -23,7 +23,7 @@
       >
         <span>[<input
           type="text"
-          class="w-9 bg-transparent outline-none text-center"
+          class="w-10 moni:w-9 bg-transparent outline-none text-center"
           :value="getWeight(member.uid)"
           @input="onInput($event)"
           @blur="onBlur($event, member.uid)"
@@ -130,7 +130,7 @@ export default defineComponent({
       if (!_e.target.value) {
         _e.target.value = getWeight(uid)
       }
-      await addWeight(uid, _e.target.value)
+      addWeight(uid, _e.target.value)
     }
 
     return {
@@ -150,8 +150,27 @@ export default defineComponent({
   }
 })
 </script>
-<style scoped>
+<style lang="postcss">
 .member-list-wrapper {
   width: 500px;
+}
+.member-list {
+  height: calc(100vh - 180px);
+}
+.theme-moni .member-list {
+  height: calc(100vh - 190px)
+}
+
+.member {
+  @apply text-2xl text-gray-700 mt-2;
+}
+.theme-moni .member {
+  @apply text-2xl text-gray-300 mt-2;
+}
+.member.offline {
+  @apply text-gray-300;
+}
+.theme-moni .member.offline {
+  @apply text-gray-500;
 }
 </style>

@@ -17,7 +17,8 @@ module.exports = {
     __windowUrls: true,
     __preloads: true,
     __workers: true,
-    NodeJS: true
+    NodeJS: true,
+    __IS_MONI__: true
   },
   parserOptions: {
     ecmaVersion: 12,

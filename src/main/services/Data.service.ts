@@ -11,15 +11,25 @@ import { LevelDB } from 'level'
 export class DataBaseService extends Service {
   db!: LevelDB // 主数据库
   basic!: LevelDataBase // 公共数据
-  fans!: SubLevelDataBase // 粉丝的详细信息
-  gift!: SubLevelDataBase // B站的礼物配置信息
+  common!: LevelDataBase
 
   bootstrap(): void {
     const db = this.db = levelDb('app')
 
     this.basic = new LevelDataBase('basic', db)
-    // this.fans = new SubLevelDataBase('info', db)
-    // this.gift = new SubLevelDataBase('gift', db)
+    this.common = new LevelDataBase('common', db)
+  }
+
+  async setCurrentVtuber(uid: number): Promise<void> {
+    await this.common.put('current_vtuber', uid)
+  }
+
+  async getCurrentVtuber(): Promise<number> {
+    return await this.common.get('current_vtuber')
+  }
+
+  setBasic(name: string): void {
+    this.basic = new LevelDataBase(name, this.db)
   }
 
   async setCurrentReward(id: number): Promise<void> {

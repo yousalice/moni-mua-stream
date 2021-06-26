@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import EventEmitter from 'events'
 import { Logger, LoggerFacade } from '../core/logger'
 
 export const INJECTIONS_SYMBOL = Symbol('__injections__')
@@ -17,11 +18,12 @@ export function Inject(type: string) {
   }
 }
 
-export class Service {
+export class Service extends EventEmitter {
   readonly name: string
   private logger: LoggerFacade
 
   constructor(logger: Logger) {
+    super()
     this.name = Object.getPrototypeOf(this).constructor.name
     this.logger = logger.createLoggerFor(this.name)
   }
