@@ -31,7 +31,7 @@ const config = {
     }
   },
   define: {
-    __IS_MONI__: true
+    __IS_MONI__: false
   },
   optimizeDeps: {
     exclude: external

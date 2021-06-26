@@ -3,7 +3,7 @@
     <h3 class="text-center">使用说明</h3>
     <section class="p-4 text-xl leading-relaxed">
       <p>
-        当前版本的抽奖机提供了灵活的抽奖配置。<span class="text-yellow-400">沫霓</span> 可以通过点击<span class="text-blue-400">配置</span>按钮即可 新增/修改/删除 配置。
+        当前版本的抽奖机提供了灵活的抽奖配置。 可以通过点击<span class="text-blue-400">配置</span>按钮即可 新增/修改/删除 配置。
       </p>
       <p>
         支持配置 奖励内容（不建议实物奖励）、参与方式、获奖人数，弹幕口令等。
@@ -22,14 +22,17 @@
         <li>
           <span class="text-blue-400">赠送礼物参与</span>： 可通过赠送特定的礼物参与，礼物数量需要大于等于设定的数量。仅需在报名周期内赠送的累计数量超过即可。
         </li>
+        <li>
+          弹幕和礼物参与的方式，需要在设置完成后，点击 开始报名 按钮 开始报名， 完成报名后，需要点击结束报名结束报名，再进行抽奖流程。
+        </li>
       </ul>
       <p class="pt-4">抽奖方式：</p>
       <ul class="list-decimal pl-6">
         <li>
-          <span class="text-blue-400">随机抽奖</span>：默认的抽奖方式。<span class="text-yellow-400">沫霓</span>直接点击 <span class="text-blue-400">开始抽奖</span> 按钮即可开始抽奖，再次点击<span class="text-blue-400">结束抽奖</span> 即可完成抽奖流程，最终显示的名字为获奖人名字。
+          <span class="text-blue-400">随机抽奖</span>：默认的抽奖方式。直接点击 <span class="text-blue-400">开始抽奖</span> 按钮即可开始抽奖，再次点击<span class="text-blue-400">结束抽奖</span> 即可完成抽奖流程，最终显示的名字为获奖人名字。
         </li>
         <li>
-          <p><span class="text-blue-400">漏斗式抽奖</span>： 漏斗式抽奖通过多次筛选的方式，从报名名单中，最多不超过4次，不少于1次进行筛选，每次筛选时间2秒，有系统内部快速随机筛选。<span class="text-yellow-400">沫霓</span>需要多次点击 <span class="text-yellow-400">抽奖按钮</span>进行抽取，每次按钮会根据筛选进度显示不同的文案说明。</p>
+          <p><span class="text-blue-400">漏斗式抽奖</span>： 漏斗式抽奖通过多次筛选的方式，从报名名单中，最多不超过4次，不少于1次进行筛选，每次筛选时间2秒，有系统内部快速随机筛选。需要多次点击 <span class="text-yellow-400">抽奖按钮</span>进行抽取，每次按钮会根据筛选进度显示不同的文案说明。</p>
           <p>比如，当前有30人参与，抽1人，则抽取规律为 先30人中筛9人，再从9人中筛6人，从6人中筛3人，最后从3人中筛1人，即为最终获奖人。此玩法比较紧张刺激，建议多使用。</p>
           <p>算法会根据参与人数与抽取人数，计算合适的筛选次数和每次筛选人数。</p>
         </li>
@@ -47,7 +50,7 @@
       <p class="pt-4">黑名单说明：</p>
       <p class="pl-4">黑名单上的人，即使报名也不会参与到抽奖过程中。</p>
       <p class="pt-4">软件说明：</p>
-      <p class="pl-4">本软件仅提供给<span class="text-yellow-400">沫霓</span>在直播过程中使用，以及个人在私下中测试使用。</p>
+      <p class="pl-4">本软件仅提供给<span class="text-yellow-400">Chobits-Live</span>在直播过程中使用，以及个人在私下中测试使用。</p>
       <p class="pl-4">本软件由 <span class="text-blue-400 cursor-pointer" @click="onOpen">@yousalice</span> 开发。</p>
     </section>
   </DialogLayout>
