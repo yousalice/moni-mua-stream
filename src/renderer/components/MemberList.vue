@@ -29,7 +29,8 @@
           @blur="onBlur($event, member.uid)"
         >]</span>
         <span class="flex-1 ml-1 flex-shrink-0 truncate mr-2">{{ member.name }}</span>
-        <span class=" cursor-pointer opacity-0 group-hover:opacity-100" @click="addBlack(member)">黑</span>
+        <span class="cursor-pointer opacity-0 group-hover:opacity-100" @click="addForceOnline(member.uid)">在线</span>
+        <span class="ml-2 cursor-pointer opacity-0 group-hover:opacity-100" @click="addBlack(member)">黑</span>
       </p>
     </div>
   </div>
@@ -52,23 +53,33 @@ export default defineComponent({
 
     const memberEl = ref(null)
     const filterOnLine = ref(false)
-
+    const forceOnline = ref<number[]>([])
     const onMonitor = () => {
       isMonitor.value = !isMonitor.value
     }
 
-    watch([guardList, currentReward, filterOnLine], () => {
+    const addForceOnline = (uid: number) => {
+      !forceOnline.value.includes(uid) && forceOnline.value.push(uid)
+    }
+
+    const onReset = () => {
+      clearMember()
+      clearSenderGift()
+      isMonitor.value = false
+    }
+
+    watch([guardList, currentReward, filterOnLine, forceOnline], () => {
       if (currentReward.value.type === 2) {
         clearMember()
         setMemberList(guardList.value
-          .filter(guard => filterOnLine.value ? guard.isAlive === 1 : true)
+          .filter(guard => filterOnLine.value ? (guard.isAlive === 1 || forceOnline.value.includes(guard.uid)) : true)
           .map(guard => {
             return {
               uid: guard.uid,
               name: guard.name,
               type: 0,
               guardLevel: guard.guardLevel,
-              isAlive: guard.isAlive,
+              isAlive: guard.isAlive || (forceOnline.value.includes(guard.uid) ? 1 : 0),
               face: guard.face
             }
           }))
@@ -77,7 +88,7 @@ export default defineComponent({
 
     watch([currentReward], () => {
       if (currentReward.value.type !== 2) {
-        clearMember()
+        onReset()
       }
     })
 
@@ -86,7 +97,7 @@ export default defineComponent({
       let { type, command = '', glob = false } = currentReward.value
       comment = comment.trim()
       command = command?.trim()
-      command = command !== '*' && glob ? `^${command}$` : command
+      command = (command !== '*' && glob) ? `^${command}$` : command
       // 弹幕口令， 且 口令匹配上
       // 不做全匹配，只要发送的弹幕中有一段包含即可
       if (type === 1 && (command === '*' || new RegExp(command).test(comment))) {
@@ -106,12 +117,6 @@ export default defineComponent({
     })
 
     onSendGift(addSenderGift)
-
-    const onReset = () => {
-      clearMember()
-      clearSenderGift()
-      isMonitor.value = false
-    }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onInput = async (_e: any) => {
@@ -145,7 +150,8 @@ export default defineComponent({
       onMonitor,
       onReset,
       onInput,
-      onBlur
+      onBlur,
+      addForceOnline
     }
   }
 })

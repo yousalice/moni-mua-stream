@@ -5,7 +5,7 @@
         {{ currentVtuber ? currentVtuber.name : 'Chobits-Live' }} @yousalice
       </span>
       <span class="flex-1 region h-8"></span>
-      <span class=" w-8 h-8"></span>
+      <span class=" w-16 h-8"></span>
     </h1>
     <span class="block el-icon-close absolute right-2 top-1 text-base z-50 cursor-pointer" @click="onClose"></span>
     <router-view class="app-container"> </router-view>
@@ -37,7 +37,7 @@ export default defineComponent({
     const { initGiftList } = useGift()
     const { chobitsConfigList, setCurrentVtuber, currentVtuber, getCurrentVtuber } = useChobitsConfig()
     const { clearMember } = useMember()
-    const { isMonitor } = usePlay()
+    const { isMoni } = usePlay()
     const { guardList } = useGuardList()
     const service = useService('AdminBrowserService')
     const dialog = useDialog()
@@ -45,8 +45,6 @@ export default defineComponent({
     const onClose = () => {
       service.close()
     }
-
-    const isMoni = ref(false)
     const showVtuberSetting = ref(false)
     const onTitleClick = () => {
       if (__IS_MONI__) return
@@ -74,7 +72,6 @@ export default defineComponent({
       await initGiftList()
       await autoRefresh({ uid, roomId })
     }
-
     onBeforeMount(async () => {
       const vtuber = __IS_MONI__ ? { uid: 1589117610, roomId: 23001181, name: '朝海沫霓Moni' } : await getCurrentVtuber()
       if (vtuber) {

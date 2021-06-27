@@ -15,10 +15,12 @@
             </span>
           </div>
         </div>
-        <div class="pl-4 text-xl flex items-center select-none">
-          <span class="cursor-pointer" :class="{ 'text-gray-400': pickType === 1 }" @click="pickType = 0">随机抽奖</span>
-          <span class="text-3xl pl-4 pr-4" :class="pickType == 0 ? 'el-icon-turn-off' : 'el-icon-open'"></span>
-          <span class="cursor-pointer" :class="{ 'text-gray-400': pickType === 0 }" @click="pickType = 1">漏斗式抽奖</span>
+        <div v-if="IS_MONI || isMoni" class="pl-4 text-xl flex items-center select-none">
+          <p class="flex-1 flex items-center">
+            <span class="cursor-pointer" :class="{ 'text-gray-400': pickType === 1 }" @click="pickType = 0">随机抽奖</span>
+            <span class="text-3xl pl-4 pr-4" :class="pickType == 0 ? 'el-icon-turn-off' : 'el-icon-open'"></span>
+            <span class="cursor-pointer" :class="{ 'text-gray-400': pickType === 0 }" @click="pickType = 1">漏斗式抽奖</span>
+          </p>
         </div>
         <div class=" text-center">
           <span v-if="pickType === 0" class="button pick" @click="onRandomPickV1">{{ active ? '结束' : '开始' }}抽奖</span>
@@ -41,7 +43,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, onBeforeMount, onUnmounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 import RewardMessage from '/@/components/RewardMessage.vue'
 import DialogSetting from '/@/components/DialogSetting.vue'
 import DialogAward from '/@/components/DialogAward.vue'
@@ -49,7 +51,7 @@ import DialogRank from '/@/components/DialogRank.vue'
 import DialogBlack from '/@/components/DialogBlack.vue'
 import DialogRule from '/@/components/DialogRule.vue'
 import MemberList from '/@/components/MemberList.vue'
-import { useRandomPick } from '/@/hooks'
+import { usePlay, useRandomPick } from '/@/hooks'
 
 export default defineComponent({
   name: 'Home',
@@ -62,6 +64,8 @@ export default defineComponent({
     const showRank = ref(false)
     const showBlack = ref(false)
     const showRule = ref(false)
+    const { isMoni } = usePlay()
+    const IS_MONI = ref(__IS_MONI__)
 
     return {
       showSetting,
@@ -74,7 +78,9 @@ export default defineComponent({
       pickList,
       pickType,
       onRandomPickV1,
-      onRandomPickV2
+      onRandomPickV2,
+      IS_MONI,
+      isMoni
     }
   }
 })
@@ -116,3 +122,11 @@ export default defineComponent({
 }
 
 </style>
+
+function __IS_MONI__(__IS_MONI__: any) {
+  throw new Error('Function not implemented.')
+}
+
+function __IS_MONI__(__IS_MONI__: any) {
+  throw new Error('Function not implemented.')
+}
