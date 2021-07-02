@@ -200,7 +200,7 @@ export function useRandomPick() {
       setTimeout(() => {
         clearInterval(timer)
         // 等全 随机
-        pickList.value = AResPick(pickList.value, count, () => true, 10)
+        pickList.value = AResPick(pickList.value, count, () => true)
         step--
         if (step > 1) {
           buttonText.value = `继续 ${count} 抽 ${stepList[stepNum - step]}`

@@ -20,6 +20,10 @@ export class MessageService extends Service {
     } else {
       this.connection.connect(option.roomId)
     }
+    this.connection.onError((e) => {
+      this.log('connect error reconnect', e)
+      this.connection.reconnect(option.roomId)
+    })
   }
 
   close(): void {
