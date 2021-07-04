@@ -17,7 +17,7 @@
       </div>
       <p class="mt-2">{{ assets.current }} / {{ assets.total }}</p>
     </div>
-    <p v-if="isDownloaded">下载完成, 请点击 安装按钮进行安装</p>
+    <p v-if="isDownloaded">下载完成, 请点击 安装 按钮进行安装。</p>
   </div>
 </template>
 
