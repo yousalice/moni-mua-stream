@@ -1,5 +1,5 @@
 const { join, resolve } = require('path')
-const { external } = require('../package.json')
+const { external, version } = require('../package.json')
 const { default: vue } = require('@vitejs/plugin-vue')
 const htmlPlugin = require('./plugins/rollup.html.plugin')
 const { readdirSync } = require('fs')
@@ -31,7 +31,8 @@ const config = {
     }
   },
   define: {
-    __IS_MONI__: false
+    __IS_MONI__: false,
+    __VERSION__: JSON.stringify(version)
   },
   optimizeDeps: {
     exclude: external

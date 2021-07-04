@@ -18,6 +18,8 @@ export class Logger {
 
   readonly log = (message: unknown, ...options: unknown[]): void => { this.loggerEntries.log.write(formatMsg(message, options)) }
 
+  readonly info = (message: unknown, ...options: unknown[]): void => { this.loggerEntries.log.write(formatMsg(message, options)) }
+
   readonly warn = (message: unknown, ...options: unknown[]): void => { this.loggerEntries.warn.write(formatMsg(message, options)) }
 
   readonly error = (message: unknown, ...options: unknown[]): void => { this.loggerEntries.error.write(formatMsg(message, options)) }

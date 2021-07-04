@@ -10,4 +10,6 @@ export async function bootstrap(): Promise<void> {
     // 之前版本 moni 的数据存在 basic 别名中， 继续保留， 其他人已 mid作为 prefix
     dataBaseService.setBasic(mid === 1589117610 ? 'basic' : mid + '')
   })
+  const updaterBrowser = userService('UpdaterBrowserService')
+  updaterBrowser.initListener()
 }

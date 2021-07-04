@@ -76,7 +76,7 @@ export class AdminBrowserService extends Service {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private send(channel: string, ...payload: any[]): void {
+  send(channel: string, ...payload: any[]): void {
     this.win.webContents.send(channel, ...payload)
   }
 }

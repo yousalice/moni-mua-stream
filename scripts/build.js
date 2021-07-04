@@ -1,3 +1,4 @@
+// @ts-nocheck
 process.env.NODE_ENV = 'production'
 
 const { join } = require('path')
@@ -74,6 +75,7 @@ function buildRenderer(isMoni) {
   return build({
     ...config,
     define: {
+      ...config.define,
       __IS_MONI__: !!isMoni
     },
     mode: process.env.NODE_ENV
@@ -89,7 +91,7 @@ function buildRenderer(isMoni) {
 async function buildElectron(config, dir) {
   console.log(chalk.bold.underline('Build electron'))
   const start = Date.now()
-  const files = await electronBuilder({ publish: 'never', config, dir })
+  const files = await electronBuilder({ publish: 'always', config, dir })
 
   for (const file of files) {
     const fstat = await stat(file)
@@ -134,21 +136,30 @@ async function start() {
   console.log(
     `Build completed in ${((Date.now() - startTime) / 1000).toFixed(2)}s.\n`
   )
+  // chobits-live
   await buildRenderer()
 
   console.log()
   if (process.env.BUILD_TARGET) {
     const config = loadElectronBuilderConfig()
+    config.publish = [{
+      ...config.publish[0] || {},
+      repo: 'chobits-live-desktop-application'
+    }]
     const dir = process.env.BUILD_TARGET === 'dir'
     await generatePackageJson()
     await buildElectron(config, dir)
   }
-
+  // moni-live
   await buildRenderer(true)
 
   console.log()
   if (process.env.BUILD_TARGET) {
     const config = loadElectronBuilderConfig()
+    config.publish = [{
+      ...config.publish[0] || {},
+      repo: 'moni-desktop-application'
+    }]
     const dir = process.env.BUILD_TARGET === 'dir'
     await generatePackageJson(true)
     await buildElectron(config, dir)

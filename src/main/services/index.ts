@@ -5,6 +5,7 @@ import { INJECTIONS_SYMBOL } from './Service'
 import { MessageService } from './Message.service'
 import { DataBaseService } from './Data.service'
 import { AdminBrowserService } from './AdminBrowser.service'
+import { UpdaterBrowserService } from './UpdaterBrowser.service'
 
 /**
  * All services definition
@@ -12,7 +13,7 @@ import { AdminBrowserService } from './AdminBrowser.service'
 export interface Services {
   DataBaseService: DataBaseService,
   AdminBrowserService: AdminBrowserService,
-  // BrowserService: BrowserService,
+  UpdaterBrowserService: UpdaterBrowserService,
   MessageService: MessageService
 }
 
@@ -27,7 +28,7 @@ export function initService(logger: Logger): void {
   _initialize({
     DataBaseService: new DataBaseService(logger),
     AdminBrowserService: new AdminBrowserService(logger),
-    // BrowserService: new BrowserService(logger),
+    UpdaterBrowserService: new UpdaterBrowserService(logger),
     MessageService: new MessageService(logger)
   })
 }

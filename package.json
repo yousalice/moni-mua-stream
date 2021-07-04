@@ -1,6 +1,6 @@
 {
   "name": "moni-mua",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "private": true,
   "description": "",
   "scripts": {
@@ -10,6 +10,8 @@
     "build:dir": "cross-env BUILD_TARGET=dir node scripts/build.js",
     "build:lite": "cross-env BUILD_TARGET=lite node scripts/build.js",
     "build:production": "cross-env BUILD_TARGET=production node scripts/build.js",
+    "build:production:chobits": "cross-env BUILD_TARGET=production BUILD_TYPE=chobits node scripts/build.js",
+    "build:production:moni": "cross-env BUILD_TARGET=production BUILD_TYPE=moni node scripts/build.js",
     "lint": "eslint --ext .ts,.vue,.js src scripts",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "node ./scripts/dev.install.js"
@@ -25,7 +27,7 @@
     "connect": "^3.7.0",
     "cors": "^2.8.5",
     "date-fns": "^2.21.3",
-    "electron-updater": "^4.3.5",
+    "electron-updater": "^4.3.9",
     "element-plus": "^1.0.2-beta.42",
     "globby": "^11.0.4",
     "http-proxy": "^1.18.1",

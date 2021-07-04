@@ -4,6 +4,9 @@
       <span class="cursor-pointer select-none" @click="onTitleClick">
         {{ currentVtuber ? currentVtuber.name : 'Chobits-Live' }} @yousalice
       </span>
+      <span class="ml-5" @click="onCheckUpdate">v{{ version }}</span>
+      <span class="ml-5" v-if="hasNewVersion" @click="onOpenUpdater">有新版本，点击更新</span>
+      <span class="ml-5" v-else @click="onCheckUpdate">已是最新版本</span>
       <span class="flex-1 region h-8"></span>
       <span class=" w-16 h-8"></span>
     </h1>
@@ -25,7 +28,7 @@
 
 <script lang=ts>
 import { defineComponent, ref, watch, nextTick, onUnmounted, onBeforeMount } from 'vue'
-import { useService, useRewardConfig, useRankList, useBlack, useGuardList, useAward, useGift, useChobitsConfig, VtuberOption, useMember, usePlay, useDialog } from '/@/hooks'
+import { useService, useRewardConfig, useRankList, useBlack, useGuardList, useAward, useGift, useChobitsConfig, VtuberOption, useMember, usePlay, useDialog, useIpc } from '/@/hooks'
 
 export default defineComponent({
   setup() {
@@ -41,6 +44,25 @@ export default defineComponent({
     const { guardList } = useGuardList()
     const service = useService('AdminBrowserService')
     const dialog = useDialog()
+    const version = ref(__VERSION__)
+    const hasNewVersion = ref(false)
+
+    const updater = useService('UpdaterBrowserService')
+    updater.check()
+    useIpc().on('update:message', (_e, { code }) => {
+      hasNewVersion.value = code === 1
+      if (code === 1) {
+        updater.createWindow()
+      }
+    })
+
+    const onOpenUpdater = () => {
+      updater.createWindow()
+    }
+
+    const onCheckUpdate = () => {
+      updater.check()
+    }
 
     const onClose = () => {
       service.close()
@@ -114,7 +136,11 @@ export default defineComponent({
       showVtuberSetting,
       currentVtuber,
       chobitsConfigList,
-      onCurrentVtuber
+      onCurrentVtuber,
+      version,
+      hasNewVersion,
+      onCheckUpdate,
+      onOpenUpdater
     }
   }
 })

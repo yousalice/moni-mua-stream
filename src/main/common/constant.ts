@@ -1,16 +1,16 @@
 import initPreload from '/@preload/index'
 import adminPage from '/@renderer/pages/admin/index.html'
-// import stagePage from '/@renderer/pages/stage/index.html'
+import updatePage from '/@renderer/pages/update/index.html'
 import logoUrl from '/@static/live.png'
 
 type pagesType = {
   admin: string,
-  // stage: string
+  update: string
 }
 
 export const pages: pagesType = {
-  admin: adminPage
-  // stage: stagePage
+  admin: adminPage,
+  update: updatePage
 }
 
 type preloadType = {
