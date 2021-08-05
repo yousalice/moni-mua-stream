@@ -49,7 +49,8 @@ export class UpdaterBrowserService extends Service {
 
   async check(): Promise<void> {
     if (process.env.NODE_ENV === 'development') {
-      autoUpdater.updateConfigPath = path.join(process.cwd(), 'src', 'app-update.yml')
+      // autoUpdater.updateConfigPath = path.join(process.cwd(), 'src', 'app-update.yml')
+      return
     }
     this.send('update:current-version', autoUpdater.currentVersion.version)
     try {

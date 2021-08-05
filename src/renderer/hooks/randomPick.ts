@@ -16,7 +16,7 @@ export function useRandomPick() {
   const { currentReward } = useRewardConfig()
   const { memberList } = useMember()
   const { addRank } = useRankList()
-  const { blackList, hasBlack } = useBlack()
+  const { hasBlack } = useBlack()
   const { getWeight } = useWeight()
   const { awardList, addAward } = useAward()
   const { isMonitor } = usePlay()
@@ -28,69 +28,62 @@ export function useRandomPick() {
   let step: number
   let stepNum = 0
 
-  const memberFilter = (uid: number) => {
-    // 黑名单
-    if (hasBlack(uid)) return false
-    // 最近12次内中奖的就别中了吧
-    const _awardList = awardList.value.slice(0, 12)
-    if (_awardList.some(_ => _.uid === uid)) return false
-    return true
-  }
-
   // A-Res 随机算法
-  const AResPick = (list: MemberOption[], count = 1, filter = memberFilter, _weight?: number) => {
+  const AResPick = (list: MemberOption[], count = 1, filter = true, _weight?: number) => {
     let res: MemberOption[] = []
     const keys: Record<number, number> = {}
+    const randoms: Record<number, number> = {}
+    const uids = Array.from(new Set(awardList.value.map(_ => _.uid))).slice(0, 12)
     list.forEach(member => {
       const uid = member.uid
-      if (filter && !filter(uid)) return
-      const weight = _weight || getWeight(uid)
-      keys[uid] = Math.pow(Math.random(), 1 / weight)
-      if (res.length < count) {
-        res.push(member)
-      } else {
-        res = _.sortBy(res, _ => keys[_.uid])
-        if (keys[res[0].uid] < keys[uid]) {
-          res.shift()
-          res.unshift(member)
-        }
+      if (filter) {
+        if (hasBlack(uid)) return
+        if (uids.includes(uid)) return
       }
+      const weight = _weight || getWeight(uid)
+      const random = Math.random()
+      randoms[uid] = random
+      keys[uid] = Math.pow(random, 1 / weight)
+      res.push(member)
     })
-    return res
+    res = _.sortBy(res, _ => keys[_.uid])
+    console.log('total:', list.length, 'currentTotal:', res.length, 'pickCount:', count)
+    const result: MemberOption[] = res.splice(res.length - count, count)
+    res.forEach((_) => console.log(_.name, ' w:', getWeight(_.uid), ' rd:', randoms[_.uid], ' res:', keys[_.uid]))
+    result.forEach((_) => console.log(_.name, ' w:', getWeight(_.uid), ' rd:', randoms[_.uid], ' res:', keys[_.uid], ' √'))
+    console.log('\n')
+    return result
   }
 
   watch([currentReward], () => {
     pickList.value = []
   })
-  watch(
-    [memberList, blackList, currentReward, awardList, isMonitor],
-    ([memberList, , currentReward, , isMonitor]) => {
-      if (isMonitor) return
-      // 实际 参与抽奖的人数应该是 排除掉 黑名单，以及 最近中奖的人数
-      const totalCount = memberList.filter(({ uid }) => memberFilter(uid)).length
-      const pickCount = currentReward.member || 1
-      const min = pickCount + 1
-      const max = pickCount * 2 + 1
-      let _stepList: number[] = []
-      if (totalCount > max * maxStep) {
-        _stepList = [pickCount, max, 2 * max, 3 * max]
-      } else if (totalCount <= max * maxStep && totalCount >= min * maxStep) {
-        const l2s = Math.floor(totalCount / maxStep)
-        _stepList = [pickCount, l2s, 2 * l2s, 3 * l2s]
-      } else {
-        const s = Math.ceil(totalCount / min)
-        _stepList = new Array(s).fill((pickCount)).map((a, i) => a * (i + 1)).slice(0, 4).filter(_ => _ < totalCount)
-      }
-      stepList = _stepList.reverse()
-      stepNum = _stepList.length
-    }
-  )
   watch([pickType], () => {
     pickList.value = []
     step = undefined as unknown as number
     lock = false
     buttonText.value = '开始抽奖'
   })
+
+  function computeStepList() {
+    const uids = Array.from(new Set(awardList.value.map(_ => _.uid))).slice(0, 12)
+    const totalCount = memberList.value.filter(({ uid }) => !hasBlack(uid) && !uids.includes(uid)).length
+    const pickCount = currentReward.value.member || 1
+    const min = pickCount + 1
+    const max = pickCount * 2 + 1
+    let _stepList: number[] = []
+    if (totalCount > max * maxStep) {
+      _stepList = [pickCount, max, 2 * max, 3 * max]
+    } else if (totalCount <= max * maxStep && totalCount >= min * maxStep) {
+      const l2s = Math.floor(totalCount / maxStep)
+      _stepList = [pickCount, l2s, 2 * l2s, 3 * l2s]
+    } else {
+      const s = Math.ceil(totalCount / min)
+      _stepList = new Array(s).fill((pickCount)).map((a, i) => a * (i + 1)).slice(0, 4).filter(_ => _ < totalCount)
+    }
+    stepList = _stepList.reverse()
+    stepNum = _stepList.length
+  }
 
   const randomPick = (list:MemberOption[], count: number) => {
     const _list: MemberOption[] = []
@@ -173,6 +166,7 @@ export function useRandomPick() {
       return
     }
     if (typeof step === 'undefined') {
+      computeStepList()
       step = stepNum
     }
     const count = stepList[stepNum - step]
@@ -200,7 +194,7 @@ export function useRandomPick() {
       setTimeout(() => {
         clearInterval(timer)
         // 等全 随机
-        pickList.value = AResPick(pickList.value, count, () => true)
+        pickList.value = AResPick(_list, count, false)
         step--
         if (step > 1) {
           buttonText.value = `继续 ${count} 抽 ${stepList[stepNum - step]}`
