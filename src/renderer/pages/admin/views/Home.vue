@@ -21,6 +21,9 @@
             <span class="text-3xl pl-4 pr-4" :class="pickType == 0 ? 'el-icon-turn-off' : 'el-icon-open'"></span>
             <span class="cursor-pointer" :class="{ 'text-gray-400': pickType === 0 }" @click="pickType = 1">漏斗式抽奖</span>
           </p>
+          <p class="mr-5 text-gray-400 cursor-pointer" @click="showLogger = true">
+            日志
+          </p>
         </div>
         <div class=" text-center">
           <span v-if="pickType === 0" class="button pick" @click="onRandomPickV1">{{ active ? '结束' : '开始' }}抽奖</span>
@@ -40,6 +43,7 @@
     <DialogRank :show="showRank" @close="showRank = false" />
     <DialogBlack :show="showBlack" @close="showBlack = false" />
     <DialogRule  :show="showRule" @close="showRule = false" />
+    <DialogLogger :show="showLogger" @close="showLogger = false" />
   </div>
 </template>
 <script lang="ts">
@@ -50,12 +54,13 @@ import DialogAward from '/@/components/DialogAward.vue'
 import DialogRank from '/@/components/DialogRank.vue'
 import DialogBlack from '/@/components/DialogBlack.vue'
 import DialogRule from '/@/components/DialogRule.vue'
+import DialogLogger from '/@/components/DialogLogger.vue'
 import MemberList from '/@/components/MemberList.vue'
 import { usePlay, useRandomPick } from '/@/hooks'
 
 export default defineComponent({
   name: 'Home',
-  components: { RewardMessage, DialogSetting, DialogAward, DialogRank, DialogBlack, DialogRule, MemberList },
+  components: { RewardMessage, DialogSetting, DialogAward, DialogRank, DialogBlack, DialogRule, DialogLogger, MemberList },
   setup() {
     const { active, buttonText, pickList, pickType, onRandomPickV1, onRandomPickV2 } = useRandomPick()
 
@@ -64,6 +69,7 @@ export default defineComponent({
     const showRank = ref(false)
     const showBlack = ref(false)
     const showRule = ref(false)
+    const showLogger = ref(false)
     const { isMoni } = usePlay()
     const IS_MONI = ref(__IS_MONI__)
 
@@ -73,6 +79,7 @@ export default defineComponent({
       showRank,
       showBlack,
       showRule,
+      showLogger,
       active,
       buttonText,
       pickList,

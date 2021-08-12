@@ -8,6 +8,7 @@ import { useRankList } from './rank'
 import { useRewardConfig } from './reward'
 import { useWeight } from './weight'
 import { useDialog } from './electron'
+import { useLogger } from './logger'
 
 const dialog = useDialog()
 
@@ -20,6 +21,7 @@ export function useRandomPick() {
   const { getWeight } = useWeight()
   const { awardList, addAward } = useAward()
   const { isMonitor } = usePlay()
+  const { addLogger, resetLogger } = useLogger()
   const pickList = ref<MemberOption[]>([]) // 抽取名单
   const pickType = ref(0) // 抽取方式  0 直接随机  1 多次筛选
   const buttonText = ref<string>('开始抽奖')
@@ -33,7 +35,7 @@ export function useRandomPick() {
     let res: MemberOption[] = []
     const keys: Record<number, number> = {}
     const randoms: Record<number, number> = {}
-    const uids = Array.from(new Set(awardList.value.map(_ => _.uid))).slice(0, 12)
+    const uids = getSliceList(Array.from(new Set(awardList.value.map(_ => _.uid))))
     list.forEach(member => {
       const uid = member.uid
       if (filter) {
@@ -47,11 +49,15 @@ export function useRandomPick() {
       res.push(member)
     })
     res = _.sortBy(res, _ => keys[_.uid])
-    console.log('total:', list.length, 'currentTotal:', res.length, 'pickCount:', count)
+    // console.log('total:', list.length, 'currentTotal:', res.length, 'pickCount:', count)
+    addLogger(`总参与人数: ${list.length}, 实际参与人数: ${res.length}, 抽取人数:  ${count}`)
     const result: MemberOption[] = res.splice(res.length - count, count)
-    res.forEach((_) => console.log(_.name, ' w:', getWeight(_.uid), ' rd:', randoms[_.uid], ' res:', keys[_.uid]))
-    result.forEach((_) => console.log(_.name, ' w:', getWeight(_.uid), ' rd:', randoms[_.uid], ' res:', keys[_.uid], ' √'))
-    console.log('\n')
+    // res.forEach((_) => console.log(_.name, ' w:', getWeight(_.uid), ' rd:', randoms[_.uid], ' res:', keys[_.uid]))
+    // result.forEach((_) => console.log(_.name, ' w:', getWeight(_.uid), ' rd:', randoms[_.uid], ' res:', keys[_.uid], ' √'))
+    res.forEach((_) => addLogger({name: _.name, weight: getWeight(_.uid), random: randoms[_.uid], aRes: keys[_.uid] }))
+    result.forEach((_) => addLogger({name: _.name, weight: getWeight(_.uid), random: randoms[_.uid], aRes: keys[_.uid], pick: true }))
+    // console.log('\n')
+    addLogger('')
     return result
   }
 
@@ -63,10 +69,17 @@ export function useRandomPick() {
     step = undefined as unknown as number
     lock = false
     buttonText.value = '开始抽奖'
+    resetLogger()
   })
 
+  function getSliceList(list: number[]) {
+    const length = list.length
+    const len = Math.min(12, Math.ceil(length / 3))
+    return list.slice(0, len)
+  }
+
   function computeStepList() {
-    const uids = Array.from(new Set(awardList.value.map(_ => _.uid))).slice(0, 12)
+    const uids = getSliceList(Array.from(new Set(awardList.value.map(_ => _.uid))))
     const totalCount = memberList.value.filter(({ uid }) => !hasBlack(uid) && !uids.includes(uid)).length
     const pickCount = currentReward.value.member || 1
     const min = pickCount + 1
@@ -120,6 +133,7 @@ export function useRandomPick() {
     if (active.value) {
       active.value = false
       timer && clearInterval(timer)
+      resetLogger()
       // 调用 A-res 算法 进行 随机抽取计算
       pickList.value = AResPick(memberList.value, currentReward.value.member)
       pickList.value.forEach(async ({ uid, name }) => {
@@ -163,6 +177,8 @@ export function useRandomPick() {
       step = stepNum
       lock = false
       buttonText.value = '开始抽奖'
+      resetLogger()
+      computeStepList()
       return
     }
     if (typeof step === 'undefined') {
